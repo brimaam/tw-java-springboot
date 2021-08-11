@@ -21,8 +21,7 @@ public class EmployeesService {
     }
 
     public Employee findEmployeeById(Integer employeeId){
-        List<Employee> employees = employeesRepository.getEmployees();
-        return employees.stream()
+        return employeesRepository.getEmployees().stream()
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findFirst()
                 .orElse(null);

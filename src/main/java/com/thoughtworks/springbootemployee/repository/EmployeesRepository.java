@@ -23,10 +23,4 @@ public class EmployeesRepository {
     public List<Employee> getEmployees() {
         return employees;
     }
-    public Employee getEmployeeById(Integer employeeId){
-        return employees.stream()
-                .filter(employee -> employee.getId().equals(employeeId))
-                .findFirst()
-                .orElse(null);
-    }
 }

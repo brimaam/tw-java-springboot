@@ -50,6 +50,7 @@ public class EmployeesServiceTest {
         Employee actualEmployee = employeeService.findEmployeeById(employeeID);
 
         //then
+        assertEquals(employeeID, actualEmployee.getId());
         assertNotNull(actualEmployee);
     }
 }
