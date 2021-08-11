@@ -34,22 +34,22 @@ public class CompaniesController {
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
-    public List<Company> getCompaniesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize){
-        return  companiesService.getCompaniesByPagination(pageIndex,pageSize);
+    public List<Company> getCompaniesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
+        return companiesService.getCompaniesByPagination(pageIndex, pageSize);
     }
 
-   @PostMapping
-    public List<Company> addCompany(@RequestBody Company company){
+    @PostMapping
+    public List<Company> addCompany(@RequestBody Company company) {
         return companiesService.addCompany(company);
     }
 
     @PutMapping(path = "/{companyId}")
-    public Company updateCompany(@PathVariable Integer companyId, @RequestBody Company companyUpdated){
+    public Company updateCompany(@PathVariable Integer companyId, @RequestBody Company companyUpdated) {
         return companiesService.updateCompany(companyId, companyUpdated);
     }
 
     @DeleteMapping(path = "/{companyId}")
-    public List<Company> deleteCompany(@PathVariable Integer companyId){
+    public List<Company> deleteCompany(@PathVariable Integer companyId) {
         return companiesService.deleteCompany(companyId);
     }
 

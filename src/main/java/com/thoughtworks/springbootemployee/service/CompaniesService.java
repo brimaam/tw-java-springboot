@@ -62,8 +62,8 @@ public class CompaniesService {
                 .map(company -> updateCompanyName(company, companyUpdated)).orElse(null);
     }
 
-    private Company updateCompanyName(Company company, Company companyUpdated){
-        if (companyUpdated.getCompanyName() != null){
+    private Company updateCompanyName(Company company, Company companyUpdated) {
+        if (companyUpdated.getCompanyName() != null) {
             company.setCompanyName(companyUpdated.getCompanyName());
         }
         return company;

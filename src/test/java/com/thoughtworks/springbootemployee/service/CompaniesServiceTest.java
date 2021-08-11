@@ -34,8 +34,8 @@ public class CompaniesServiceTest {
         nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
         nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
 
-        companies.add(new Company(1,"Google",morningEmployees));
-        companies.add(new Company(2,"Twitter",nightEmployees));
+        companies.add(new Company(1, "Google", morningEmployees));
+        companies.add(new Company(2, "Twitter", nightEmployees));
 
         given(companiesRepository.getCompanies()).willReturn(companies);
 
@@ -59,8 +59,8 @@ public class CompaniesServiceTest {
         nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
         nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
 
-        companies.add(new Company(1,"Google",morningEmployees));
-        companies.add(new Company(2,"Twitter",nightEmployees));
+        companies.add(new Company(1, "Google", morningEmployees));
+        companies.add(new Company(2, "Twitter", nightEmployees));
 
         given(companiesRepository.getCompanies()).willReturn(companies);
 
@@ -85,14 +85,14 @@ public class CompaniesServiceTest {
         nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
         nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
 
-        companies.add(new Company(1,"Google",morningEmployees));
-        companies.add(new Company(2,"Twitter",nightEmployees));
-        companies.add(new Company(3,"Facebook",nightEmployees));
+        companies.add(new Company(1, "Google", morningEmployees));
+        companies.add(new Company(2, "Twitter", nightEmployees));
+        companies.add(new Company(3, "Facebook", nightEmployees));
 
         given(companiesRepository.getCompanies()).willReturn(companies);
 
         //when
-        List <Employee> actualCompanyEmployees = companiesService.getCompanyEmployeesById(companyId);
+        List<Employee> actualCompanyEmployees = companiesService.getCompanyEmployeesById(companyId);
 
         //then
         assertEquals(morningEmployees, actualCompanyEmployees);
@@ -113,14 +113,14 @@ public class CompaniesServiceTest {
         nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
         nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
 
-        companies.add(new Company(1,"Google",morningEmployees));
-        companies.add(new Company(2,"Twitter",nightEmployees));
-        companies.add(new Company(3,"Facebook",nightEmployees));
+        companies.add(new Company(1, "Google", morningEmployees));
+        companies.add(new Company(2, "Twitter", nightEmployees));
+        companies.add(new Company(3, "Facebook", nightEmployees));
 
         given(companiesRepository.getCompanies()).willReturn(companies);
 
         //when
-        List <Company> actualCompanies = companiesService.getCompaniesByPagination(pageIndex,pageSize);
+        List<Company> actualCompanies = companiesService.getCompaniesByPagination(pageIndex, pageSize);
 
         //then
         assertIterableEquals(companies, actualCompanies);
@@ -138,22 +138,23 @@ public class CompaniesServiceTest {
         nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
         nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
 
-        companies.add(new Company(1,"Google",morningEmployees));
-        companies.add(new Company(2,"Twitter",nightEmployees));
-        companies.add(new Company(3,"Facebook",nightEmployees));
+        companies.add(new Company(1, "Google", morningEmployees));
+        companies.add(new Company(2, "Twitter", nightEmployees));
+        companies.add(new Company(3, "Facebook", nightEmployees));
 
         Integer generatedId = companiesRepository.getCompanies().size() + 1;
-        Company company = new Company(generatedId,"Jollibee", nightEmployees);
+        Company company = new Company(generatedId, "Jollibee", nightEmployees);
 
         given(companiesRepository.getCompanies()).willReturn(companies);
 
         //when
-        List <Company> companiesWithAddedCompany = companiesService.addCompany(company);
+        List<Company> companiesWithAddedCompany = companiesService.addCompany(company);
 
         //then
         assertIterableEquals(companies, companiesWithAddedCompany);
         assertTrue(companies.stream().anyMatch(comp -> comp.getId().equals(company.getId())));
     }
+
     @Test
     void should_update_a_company_when_updateCompany_given_a_companyId_and_a_company_update() {
         //given
@@ -170,13 +171,13 @@ public class CompaniesServiceTest {
         nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
         nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
 
-        companies.add(new Company(1,"Google",morningEmployees));
-        companies.add(new Company(2,"Twitter",nightEmployees));
-        companies.add(new Company(3,"Facebook",nightEmployees));
+        companies.add(new Company(1, "Google", morningEmployees));
+        companies.add(new Company(2, "Twitter", nightEmployees));
+        companies.add(new Company(3, "Facebook", nightEmployees));
         given(companiesRepository.getCompanies()).willReturn(companies);
 
         //when
-        companiesService.updateCompany(companyId,companyUpdate);
+        companiesService.updateCompany(companyId, companyUpdate);
 
         //then
         assertEquals(companiesService.getCompanyById(companyId).getCompanyName(), companyUpdate.getCompanyName());
@@ -196,9 +197,9 @@ public class CompaniesServiceTest {
         nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
         nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
 
-        companies.add(new Company(1,"Google",morningEmployees));
-        companies.add(new Company(2,"Twitter",nightEmployees));
-        companies.add(new Company(3,"Facebook",nightEmployees));
+        companies.add(new Company(1, "Google", morningEmployees));
+        companies.add(new Company(2, "Twitter", nightEmployees));
+        companies.add(new Company(3, "Facebook", nightEmployees));
         given(companiesRepository.getCompanies()).willReturn(companies);
 
         //when
@@ -207,5 +208,4 @@ public class CompaniesServiceTest {
         //then
         assertFalse(companies.stream().anyMatch(company -> company.getId().equals(companyId)));
     }
-
 }

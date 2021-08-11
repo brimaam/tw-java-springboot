@@ -22,13 +22,13 @@ public class CompaniesRepository {
         nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
         nightEmployees.add(new Employee(3, "kyle", 25, "male", 1200));
 
-        companies.add(new Company(1,"Google",morningEmployees));
-        companies.add(new Company(2,"Twitter",nightEmployees));
-        companies.add(new Company(3,"Facebook",morningEmployees));
-        companies.add(new Company(4,"Adobe",nightEmployees));
-        companies.add(new Company(5,"Chevron",morningEmployees));
-        companies.add(new Company(6,"Apple",nightEmployees));
-        companies.add(new Company(7,"Sony",morningEmployees));
+        companies.add(new Company(1, "Google", morningEmployees));
+        companies.add(new Company(2, "Twitter", nightEmployees));
+        companies.add(new Company(3, "Facebook", morningEmployees));
+        companies.add(new Company(4, "Adobe", nightEmployees));
+        companies.add(new Company(5, "Chevron", morningEmployees));
+        companies.add(new Company(6, "Apple", nightEmployees));
+        companies.add(new Company(7, "Sony", morningEmployees));
     }
 
     public List<Company> getCompanies() {

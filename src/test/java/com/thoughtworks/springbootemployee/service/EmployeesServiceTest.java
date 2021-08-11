@@ -108,7 +108,7 @@ public class EmployeesServiceTest {
         employeeService.addEmployee(employee);
 
         //then
-        assertTrue(employees.stream().anyMatch(emp -> emp.getId().equals(employee.getId())));
+        assertTrue(employees.stream().anyMatch(employedPerson -> employedPerson.getId().equals(employee.getId())));
     }
 
     @Test
@@ -146,6 +146,6 @@ public class EmployeesServiceTest {
         employeeService.deleteEmployeeRecord(employeeId);
 
         //then
-        assertFalse(employees.stream().anyMatch(emp -> emp.getId().equals(employeeId)));
+        assertFalse(employees.stream().anyMatch(employee -> employee.getId().equals(employeeId)));
     }
 }
