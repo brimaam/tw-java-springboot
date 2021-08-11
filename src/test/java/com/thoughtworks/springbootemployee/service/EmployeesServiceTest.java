@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.controller.Employee;
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -93,7 +93,7 @@ public class EmployeesServiceTest {
     }
 
     @Test
-    public void should_add_employee_to_employees_when_addEmployee_given_an_employee() {
+    public void should_add_an_employee_to_employees_when_addEmployee_given_an_employee() {
         //given
         Integer generatedId = employeeRepository.getEmployees().size()+1;
         Employee employee = new Employee(generatedId,"john",43,"male",6000);
@@ -108,5 +108,26 @@ public class EmployeesServiceTest {
 
         //then
         assertTrue(employees.stream().anyMatch(emp -> emp.getId().equals(employee.getId())));
+    }
+
+    @Test
+    public void should_update_an_employee_when_updateEmployee_given_an_employeeID_and_employee_update() {
+        //given
+        Integer employeeID = 1;
+        Employee employee = new Employee();
+        employee.setName("malice");
+        employee.setAge(43);
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "alice", 20, "female", 2000));
+        employees.add(new Employee(2, "bob", 21, "male", 1000));
+        given(employeeRepository.getEmployees()).willReturn(employees);
+
+        //when
+        employeeService.updateEmployee(employeeID,employee);
+
+        //then
+        assertEquals(employeeService.findEmployeeById(employeeID).getName(), employee.getName());
+        assertEquals(employeeService.findEmployeeById(employeeID).getAge(), employee.getAge());
     }
 }

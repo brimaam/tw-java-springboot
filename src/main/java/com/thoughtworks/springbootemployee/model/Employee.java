@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee.controller;
+package com.thoughtworks.springbootemployee.model;
 
 public class Employee {
     private Integer id;
@@ -6,6 +6,8 @@ public class Employee {
     private Integer age;
     private String gender;
     private Integer salary;
+
+    public Employee(){}
 
     public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
         this.id = id;

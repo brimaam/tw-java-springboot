@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -53,28 +53,7 @@ public class EmployeesController {
 
     @PutMapping(path = "/{employeeId}")
     public Employee updateEmployee(@PathVariable Integer employeeId, @RequestBody Employee employeeUpdated){
-        return employees.stream()
-                .filter(employee -> employee.getId().equals(employeeId))
-                .findFirst()
-                .map(employee -> updateEmployeeInformation(employee, employeeUpdated))
-                .get();
-    }
-
-    private Employee updateEmployeeInformation(Employee employee, Employee employeeUpdated) {
-        if(employeeUpdated.getAge() != null){
-            employee.setAge(employeeUpdated.getAge());
-        }
-        if(employeeUpdated.getName() != null){
-            employee.setName(employeeUpdated.getName());
-        }
-        if(employeeUpdated.getGender()!= null){
-            employee.setGender(employeeUpdated.getGender());
-        }
-        if(employeeUpdated.getSalary() != null){
-            employee.setSalary(employeeUpdated.getSalary());
-        }
-
-        return employee;
+        return employeesService.updateEmployee(employeeId,employeeUpdated);
     }
 
     @DeleteMapping(path = "/{employeeId}")
