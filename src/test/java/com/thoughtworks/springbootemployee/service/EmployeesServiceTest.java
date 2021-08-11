@@ -130,4 +130,21 @@ public class EmployeesServiceTest {
         assertEquals(employeeService.findEmployeeById(employeeID).getName(), employee.getName());
         assertEquals(employeeService.findEmployeeById(employeeID).getAge(), employee.getAge());
     }
+
+    @Test
+    public void should_delete_an_employee_when_deleteEmployee_given_an_employeeID() {
+        //given
+        Integer employeeId = 1;
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "alice", 20, "female", 2000));
+        employees.add(new Employee(2, "bob", 21, "male", 1000));
+        given(employeeRepository.getEmployees()).willReturn(employees);
+
+        //when
+        employeeService.deleteEmployeeRecord(employeeId);
+
+        //then
+        assertFalse(employees.stream().anyMatch(emp -> emp.getId().equals(employeeId)));
+    }
 }

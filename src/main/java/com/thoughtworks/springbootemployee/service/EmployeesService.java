@@ -72,4 +72,11 @@ public class EmployeesService {
         return employee;
     }
 
+    public List<Employee> deleteEmployeeRecord(Integer employeeId){
+        List<Employee> employees = employeesRepository.getEmployees();
+
+        employees.removeIf(employee -> employee.getId().equals(employeeId));
+        return employees;
+    }
+
 }
