@@ -4,7 +4,6 @@ import com.thoughtworks.springbootemployee.controller.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,4 +38,12 @@ public class EmployeesService {
                 .filter(employee -> gender.toLowerCase().equals(employee.getGender().toLowerCase()))
                 .collect(Collectors.toList());
     }
+
+    public void addEmployee(Employee employee){
+        Employee employeeToBeAdded = new Employee(employeesRepository.getEmployees().size() + 1,
+                employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary());
+
+        employeesRepository.getEmployees().add(employeeToBeAdded);
+    }
+
 }

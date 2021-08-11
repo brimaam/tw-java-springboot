@@ -91,4 +91,22 @@ public class EmployeesServiceTest {
         //then
         assertIterableEquals(employees, actualEmployees);
     }
+
+    @Test
+    public void should_add_employee_to_employees_when_addEmployee_given_an_employee() {
+        //given
+        Integer generatedId = employeeRepository.getEmployees().size()+1;
+        Employee employee = new Employee(generatedId,"john",43,"male",6000);
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "alice", 20, "female", 2000));
+        employees.add(new Employee(2, "bob", 21, "male", 1000));
+        given(employeeRepository.getEmployees()).willReturn(employees);
+
+        //when
+        employeeService.addEmployee(employee);
+
+        //then
+        assertTrue(employees.stream().anyMatch(emp -> emp.getId().equals(employee.getId())));
+    }
 }
