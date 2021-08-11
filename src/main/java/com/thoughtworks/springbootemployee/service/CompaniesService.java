@@ -68,4 +68,11 @@ public class CompaniesService {
         }
         return company;
     }
+
+    public List<Company> deleteCompany(Integer companyId) {
+        List<Company> companies = companiesRepository.getCompanies();
+
+        companies.removeIf(company -> company.getId().equals(companyId));
+        return companies;
+    }
 }
