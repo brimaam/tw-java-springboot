@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,7 +87,15 @@ public class EmployeesController {
     }
 
     @DeleteMapping(path = "/{employeeId}")
-    private void deleteEmployeeRecord(@PathVariable Integer employeeId){
-        employees.removeIf(employee -> employee.getId().equals(employeeId));
+    private List<Employee>  deleteEmployeeRecord(@PathVariable Integer employeeId){
+        Iterator<Employee> itr = employees.iterator();
+        // remove all even numbers
+        while (itr.hasNext()) {
+            Employee employee = itr.next();
+            if (employee.getId().equals(employeeId)) {
+                employees.remove(employee);
+            }
+        }
+        return employees;
     }
 }
