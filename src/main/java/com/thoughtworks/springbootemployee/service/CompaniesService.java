@@ -20,7 +20,7 @@ public class CompaniesService {
         return companiesRepository.getCompanies();
     }
 
-    public Company findCompanyById(Integer companyId) {
+    public Company getCompanyById(Integer companyId) {
         return companiesRepository.getCompanies().stream()
                 .filter(company -> company.getId().equals(companyId))
                 .findFirst()
