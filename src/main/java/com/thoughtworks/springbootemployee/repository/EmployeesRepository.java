@@ -10,7 +10,7 @@ import java.util.List;
 public class EmployeesRepository {
     private final List<Employee> employees = new ArrayList<>();
 
-    public EmployeesRepository(){
+    public EmployeesRepository() {
         employees.add(new Employee(1, "alice", 22, "female", 2000));
         employees.add(new Employee(2, "bob", 21, "male", 1000));
         employees.add(new Employee(3, "tom", 25, "male", 1400));

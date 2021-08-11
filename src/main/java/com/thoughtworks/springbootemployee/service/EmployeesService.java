@@ -21,32 +21,34 @@ public class EmployeesService {
         return employeesRepository.getEmployees();
     }
 
-    public Employee findEmployeeById(Integer employeeId){
+    public Employee findEmployeeById(Integer employeeId) {
         return employeesRepository.getEmployees().stream()
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findFirst()
                 .orElse(null);
     }
-    public List<Employee> getEmployeesByPagination(Integer pageIndex, Integer pageSize){
+
+    public List<Employee> getEmployeesByPagination(Integer pageIndex, Integer pageSize) {
         return employeesRepository.getEmployees().stream()
                 .skip((long) (pageIndex - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
-    public List<Employee> getAllEmployeesByGender(String gender){
+
+    public List<Employee> getAllEmployeesByGender(String gender) {
         return employeesRepository.getEmployees().stream()
                 .filter(employee -> gender.equalsIgnoreCase(employee.getGender()))
                 .collect(Collectors.toList());
     }
 
-    public void addEmployee(Employee employee){
+    public void addEmployee(Employee employee) {
         Employee employeeToBeAdded = new Employee(employeesRepository.getEmployees().size() + 1,
                 employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary());
 
         employeesRepository.getEmployees().add(employeeToBeAdded);
     }
 
-    public Employee updateEmployee( Integer employeeId, Employee employeeUpdated){
+    public Employee updateEmployee(Integer employeeId, Employee employeeUpdated) {
         List<Employee> employees = employeesRepository.getEmployees();
 
         return employees.stream()
@@ -56,23 +58,23 @@ public class EmployeesService {
     }
 
     private Employee updateEmployeeInformation(Employee employee, Employee employeeUpdated) {
-        if(employeeUpdated.getAge() != null){
+        if (employeeUpdated.getAge() != null) {
             employee.setAge(employeeUpdated.getAge());
         }
-        if(employeeUpdated.getName() != null){
+        if (employeeUpdated.getName() != null) {
             employee.setName(employeeUpdated.getName());
         }
-        if(employeeUpdated.getGender()!= null){
+        if (employeeUpdated.getGender() != null) {
             employee.setGender(employeeUpdated.getGender());
         }
-        if(employeeUpdated.getSalary() != null){
+        if (employeeUpdated.getSalary() != null) {
             employee.setSalary(employeeUpdated.getSalary());
         }
 
         return employee;
     }
 
-    public List<Employee> deleteEmployeeRecord(Integer employeeId){
+    public List<Employee> deleteEmployeeRecord(Integer employeeId) {
         List<Employee> employees = employeesRepository.getEmployees();
 
         employees.removeIf(employee -> employee.getId().equals(employeeId));

@@ -68,11 +68,12 @@ public class EmployeesServiceTest {
         given(employeeRepository.getEmployees()).willReturn(employees);
 
         //when
-        List<Employee>  actualEmployees = employeeService.getEmployeesByPagination(pageIndex,pageSize);
+        List<Employee> actualEmployees = employeeService.getEmployeesByPagination(pageIndex, pageSize);
 
         //then
         assertIterableEquals(employees, actualEmployees);
     }
+
     @Test
     public void should_return_all_male_employees_when_getAllEmployeesByGender_given_gender() {
         //given
@@ -86,7 +87,7 @@ public class EmployeesServiceTest {
         given(employeeRepository.getEmployees()).willReturn(employees);
 
         //when
-        List<Employee>  actualEmployees = employeeService.getAllEmployeesByGender(gender);
+        List<Employee> actualEmployees = employeeService.getAllEmployeesByGender(gender);
 
         //then
         assertIterableEquals(employees, actualEmployees);
@@ -95,8 +96,8 @@ public class EmployeesServiceTest {
     @Test
     public void should_add_an_employee_to_employees_when_addEmployee_given_an_employee() {
         //given
-        Integer generatedId = employeeRepository.getEmployees().size()+1;
-        Employee employee = new Employee(generatedId,"john",43,"male",6000);
+        Integer generatedId = employeeRepository.getEmployees().size() + 1;
+        Employee employee = new Employee(generatedId, "john", 43, "male", 6000);
 
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "alice", 20, "female", 2000));
@@ -124,7 +125,7 @@ public class EmployeesServiceTest {
         given(employeeRepository.getEmployees()).willReturn(employees);
 
         //when
-        employeeService.updateEmployee(employeeID,employee);
+        employeeService.updateEmployee(employeeID, employee);
 
         //then
         assertEquals(employeeService.findEmployeeById(employeeID).getName(), employee.getName());
