@@ -44,11 +44,13 @@ public class CompaniesService {
     }
 
     public List<Company> addCompany(Company company) {
-        Company companyToBeAdded = new Company(companiesRepository.getCompanies().size() + 1,
+        List<Company> companies = companiesRepository.getCompanies();
+        Company companyToBeAdded = new Company(companies.size() + 1,
                 company.getCompanyName(), company.getEmployees());
-        companiesRepository.getCompanies().add(companyToBeAdded);
 
-        return companiesRepository.getCompanies();
+        companies.add(companyToBeAdded);
+
+        return companies;
     }
 
     public Company updateCompany(Integer employeeId, Company companyUpdated) {
