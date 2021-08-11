@@ -37,4 +37,10 @@ public class CompaniesController {
     public List<Company> getCompaniesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize){
         return  companiesService.getCompaniesByPagination(pageIndex,pageSize);
     }
+
+   @PostMapping
+    public List<Company> addCompany(@RequestBody Company company){
+        return companiesService.addCompany(company);
+    }
+
 }

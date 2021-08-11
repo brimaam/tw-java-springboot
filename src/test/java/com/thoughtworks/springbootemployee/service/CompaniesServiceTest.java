@@ -125,4 +125,33 @@ public class CompaniesServiceTest {
         //then
         assertIterableEquals(companies, actualCompanies);
     }
+
+    @Test
+    public void should_add_a_company_to_companies_when_addCompany_given_a_company() {
+        //given
+        List<Company> companies = new ArrayList<>();
+        List<Employee> morningEmployees = new ArrayList<>();
+        morningEmployees.add(new Employee(1, "allie", 22, "female", 2000));
+        morningEmployees.add(new Employee(2, "diego", 21, "male", 3000));
+
+        List<Employee> nightEmployees = new ArrayList<>();
+        nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
+        nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
+
+        companies.add(new Company(1,"Google",morningEmployees));
+        companies.add(new Company(2,"Twitter",nightEmployees));
+        companies.add(new Company(3,"Facebook",nightEmployees));
+
+        Integer generatedId = companiesRepository.getCompanies().size() + 1;
+        Company company = new Company(generatedId,"Jollibee", nightEmployees);
+
+        given(companiesRepository.getCompanies()).willReturn(companies);
+
+        //when
+        List <Company> companiesWithAddedCompany = companiesService.addCompany(company);
+
+        //then
+        assertIterableEquals(companies, companiesWithAddedCompany);
+        assertTrue(companies.stream().anyMatch(comp -> comp.getId().equals(company.getId())));
+    }
 }

@@ -42,4 +42,12 @@ public class CompaniesService {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    public List<Company> addCompany(Company company) {
+        Company companyToBeAdded = new Company(companiesRepository.getCompanies().size() + 1,
+                company.getCompanyName(), company.getEmployees());
+        companiesRepository.getCompanies().add(companyToBeAdded);
+
+        return companiesRepository.getCompanies();
+    }
 }
