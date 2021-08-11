@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.CompaniesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,5 +29,11 @@ public class CompaniesController {
     @GetMapping(path = "/{companyId}")
     public Company findCompanyById(@PathVariable Integer companyId) {
         return companiesService.getCompanyById(companyId);
+    }
+
+
+    @GetMapping(path = "/{companyId}/employees")
+    public List<Employee> findCompanyEmployeesById(@PathVariable Integer companyId) {
+        return companiesService.getCompanyEmployeesById(companyId);
     }
 }
