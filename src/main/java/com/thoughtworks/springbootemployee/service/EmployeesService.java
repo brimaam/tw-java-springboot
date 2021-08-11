@@ -34,4 +34,9 @@ public class EmployeesService {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+    public List<Employee> getAllEmployeesByGender(String gender){
+        return employeesRepository.getEmployees().stream()
+                .filter(employee -> gender.toLowerCase().equals(employee.getGender().toLowerCase()))
+                .collect(Collectors.toList());
+    }
 }

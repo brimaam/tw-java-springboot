@@ -73,4 +73,22 @@ public class EmployeesServiceTest {
         //then
         assertIterableEquals(employees, actualEmployees);
     }
+    @Test
+    public void should_return_all_male_employees_when_getAllEmployeesByGender_given_gender() {
+        //given
+        String gender = "male";
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(2, "bob", 21, "male", 1000));
+        employees.add(new Employee(3, "tom", 25, "male", 1400));
+        employees.add(new Employee(4, "jeff", 31, "male", 12100));
+        employees.add(new Employee(6, "dave", 19, "male", 1400));
+        employees.add(new Employee(7, "cleon", 23, "male", 1600));
+        given(employeeRepository.getEmployees()).willReturn(employees);
+
+        //when
+        List<Employee>  actualEmployees = employeeService.getAllEmployeesByGender(gender);
+
+        //then
+        assertIterableEquals(employees, actualEmployees);
+    }
 }
