@@ -11,8 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,13 +40,16 @@ public class EmployeesServiceTest {
     public void should_return_employee_when_findEmployeeById_given_employeeId() {
         //given
         Integer employeeID = 1;
-        Employee employee =  new Employee(employeeID, "alice", 20, "female", 2000);
-        given(employeeRepository.getEmployeeById(employeeID)).willReturn(employee);
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(employeeID, "alice", 20, "female", 2000));
+        employees.add(new Employee(2, "bob", 21, "male", 1000));
+
+        given(employeeRepository.getEmployees()).willReturn(employees);
 
         //when
         Employee actualEmployee = employeeService.findEmployeeById(employeeID);
 
         //then
-        assertEquals(employee, actualEmployee);
+        assertNotNull(actualEmployee);
     }
 }
