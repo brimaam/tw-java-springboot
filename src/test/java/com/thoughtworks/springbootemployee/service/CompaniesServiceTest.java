@@ -98,4 +98,31 @@ public class CompaniesServiceTest {
         assertEquals(morningEmployees, actualCompanyEmployees);
         assertNotNull(actualCompanyEmployees);
     }
+
+    @Test
+    public void should_return_companies_with_page_index_and_size_when_getCompaniesByPagination_given_page_index_and_size() {
+        //given
+        Integer pageIndex = 1;
+        Integer pageSize = 5;
+        List<Company> companies = new ArrayList<>();
+        List<Employee> morningEmployees = new ArrayList<>();
+        morningEmployees.add(new Employee(1, "allie", 22, "female", 2000));
+        morningEmployees.add(new Employee(2, "diego", 21, "male", 3000));
+
+        List<Employee> nightEmployees = new ArrayList<>();
+        nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
+        nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
+
+        companies.add(new Company(1,"Google",morningEmployees));
+        companies.add(new Company(2,"Twitter",nightEmployees));
+        companies.add(new Company(3,"Facebook",nightEmployees));
+
+        given(companiesRepository.getCompanies()).willReturn(companies);
+
+        //when
+        List <Company> actualCompanies = companiesService.getCompaniesByPagination(pageIndex,pageSize);
+
+        //then
+        assertIterableEquals(companies, actualCompanies);
+    }
 }
