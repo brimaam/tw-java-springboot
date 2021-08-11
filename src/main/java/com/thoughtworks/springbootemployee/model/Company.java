@@ -7,6 +7,9 @@ public class Company {
     private String companyName;
     private List<Employee> employees;
 
+    public Company() {
+    }
+
     public Company(Integer id, String companyName, List<Employee> employees) {
         this.id = id;
         this.companyName = companyName;
@@ -23,5 +26,9 @@ public class Company {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

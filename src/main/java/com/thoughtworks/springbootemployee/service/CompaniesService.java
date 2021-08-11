@@ -50,4 +50,20 @@ public class CompaniesService {
 
         return companiesRepository.getCompanies();
     }
+
+    public Company updateCompany(Integer employeeId, Company companyUpdated) {
+        List<Company> companies = companiesRepository.getCompanies();
+
+        return companies.stream()
+                .filter(company -> company.getId().equals(employeeId))
+                .findFirst()
+                .map(company -> updateCompanyName(company, companyUpdated)).orElse(null);
+    }
+
+    private Company updateCompanyName(Company company, Company companyUpdated){
+        if (companyUpdated.getCompanyName() != null){
+            company.setCompanyName(companyUpdated.getCompanyName());
+        }
+        return company;
+    }
 }

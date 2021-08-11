@@ -154,4 +154,32 @@ public class CompaniesServiceTest {
         assertIterableEquals(companies, companiesWithAddedCompany);
         assertTrue(companies.stream().anyMatch(comp -> comp.getId().equals(company.getId())));
     }
+    @Test
+    void should_update_a_company_when_updateCompany_given_a_companyId_and_a_company_update() {
+        //given
+        Integer companyId = 1;
+        Company companyUpdate = new Company();
+        companyUpdate.setCompanyName("Tesla");
+
+        List<Company> companies = new ArrayList<>();
+        List<Employee> morningEmployees = new ArrayList<>();
+        morningEmployees.add(new Employee(1, "allie", 22, "female", 2000));
+        morningEmployees.add(new Employee(2, "diego", 21, "male", 3000));
+
+        List<Employee> nightEmployees = new ArrayList<>();
+        nightEmployees.add(new Employee(1, "gail", 22, "female", 2000));
+        nightEmployees.add(new Employee(2, "franco", 21, "male", 1000));
+
+        companies.add(new Company(1,"Google",morningEmployees));
+        companies.add(new Company(2,"Twitter",nightEmployees));
+        companies.add(new Company(3,"Facebook",nightEmployees));
+        given(companiesRepository.getCompanies()).willReturn(companies);
+
+        //when
+        companiesService.updateCompany(companyId,companyUpdate);
+
+        //then
+        assertEquals(companiesService.getCompanyById(companyId).getCompanyName(), companyUpdate.getCompanyName());
+    }
+
 }
