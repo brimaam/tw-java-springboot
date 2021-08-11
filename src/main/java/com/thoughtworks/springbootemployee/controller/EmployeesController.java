@@ -30,12 +30,10 @@ public class EmployeesController {
         return employeesService.getAllEmployees();
     }
 
+
     @GetMapping(path = "/{employeeId}")
     public Employee findEmployeeById(@PathVariable Integer employeeId){
-        return employees.stream()
-                .filter(employee -> employee.getId().equals(employeeId))
-                .findFirst()
-                .orElse(null);
+        return employeesService.findEmployeeById(employeeId);
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
