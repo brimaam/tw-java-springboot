@@ -77,4 +77,20 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.salary").value(3000));
     }
 
+    @Test
+    void should_delete_employee_when_call_delete_employee_api() throws Exception {
+        //given
+        Integer employeeId = 1;
+        final Employee firstEmployee = new Employee(employeeId, "Tom", 20, "male", 9999);
+        final Employee secondEmployee = new Employee(2, "Jane", 23, "female", 9199);
+        employeesRepository.save(firstEmployee);
+        employeesRepository.save(secondEmployee);
+
+
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{employeeId}", employeeId))
+                .andExpect(status().isOk());
+    }
+
 }
