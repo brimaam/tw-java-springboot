@@ -2,7 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
+import com.thoughtworks.springbootemployee.repository.RetiringCompaniesRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ public class CompaniesServiceTest {
     @InjectMocks
     private CompaniesService companiesService;
     @Mock
-    private CompaniesRepository companiesRepository;
+    private RetiringCompaniesRepository retiringCompaniesRepository;
 
     @Test
     public void should_return_all_companies_when_getAllCompanies_given_all_companies() {
@@ -37,7 +37,7 @@ public class CompaniesServiceTest {
         companies.add(new Company(1, "Google", morningEmployees));
         companies.add(new Company(2, "Twitter", nightEmployees));
 
-        given(companiesRepository.getCompanies()).willReturn(companies);
+        given(retiringCompaniesRepository.getCompanies()).willReturn(companies);
 
         //when
         List<Company> actualCompanies = companiesService.getAllCompanies();
@@ -62,7 +62,7 @@ public class CompaniesServiceTest {
         companies.add(new Company(1, "Google", morningEmployees));
         companies.add(new Company(2, "Twitter", nightEmployees));
 
-        given(companiesRepository.getCompanies()).willReturn(companies);
+        given(retiringCompaniesRepository.getCompanies()).willReturn(companies);
 
         //when
         Company actualCompany = companiesService.getCompanyById(companyId);
@@ -89,7 +89,7 @@ public class CompaniesServiceTest {
         companies.add(new Company(2, "Twitter", nightEmployees));
         companies.add(new Company(3, "Facebook", nightEmployees));
 
-        given(companiesRepository.getCompanies()).willReturn(companies);
+        given(retiringCompaniesRepository.getCompanies()).willReturn(companies);
 
         //when
         List<Employee> actualCompanyEmployees = companiesService.getCompanyEmployeesById(companyId);
@@ -117,7 +117,7 @@ public class CompaniesServiceTest {
         companies.add(new Company(2, "Twitter", nightEmployees));
         companies.add(new Company(3, "Facebook", nightEmployees));
 
-        given(companiesRepository.getCompanies()).willReturn(companies);
+        given(retiringCompaniesRepository.getCompanies()).willReturn(companies);
 
         //when
         List<Company> actualCompanies = companiesService.getCompaniesByPagination(pageIndex, pageSize);
@@ -142,10 +142,10 @@ public class CompaniesServiceTest {
         companies.add(new Company(2, "Twitter", nightEmployees));
         companies.add(new Company(3, "Facebook", nightEmployees));
 
-        Integer generatedId = companiesRepository.getCompanies().size() + 1;
+        Integer generatedId = retiringCompaniesRepository.getCompanies().size() + 1;
         Company company = new Company(generatedId, "Jollibee", nightEmployees);
 
-        given(companiesRepository.getCompanies()).willReturn(companies);
+        given(retiringCompaniesRepository.getCompanies()).willReturn(companies);
 
         //when
         List<Company> companiesWithAddedCompany = companiesService.addCompany(company);
@@ -174,7 +174,7 @@ public class CompaniesServiceTest {
         companies.add(new Company(1, "Google", morningEmployees));
         companies.add(new Company(2, "Twitter", nightEmployees));
         companies.add(new Company(3, "Facebook", nightEmployees));
-        given(companiesRepository.getCompanies()).willReturn(companies);
+        given(retiringCompaniesRepository.getCompanies()).willReturn(companies);
 
         //when
         companiesService.updateCompany(companyId, companyUpdate);
@@ -200,7 +200,7 @@ public class CompaniesServiceTest {
         companies.add(new Company(1, "Google", morningEmployees));
         companies.add(new Company(2, "Twitter", nightEmployees));
         companies.add(new Company(3, "Facebook", nightEmployees));
-        given(companiesRepository.getCompanies()).willReturn(companies);
+        given(retiringCompaniesRepository.getCompanies()).willReturn(companies);
 
         //when
         companiesService.deleteCompany(companyId);
