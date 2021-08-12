@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EmployeesService {
@@ -60,11 +61,8 @@ public class EmployeesService {
         return employee;
     }
 
-    public List<Employee> deleteEmployeeRecord(Integer employeeId) {
-        List<Employee> employees = retiringEmployeesRepository.getEmployees();
-
-        employees.removeIf(employee -> employee.getId().equals(employeeId));
-        return employees;
+    public void deleteEmployeeRecord(Integer employeeId) {
+        employeesRepository.delete(Objects.requireNonNull(employeesRepository.findById(employeeId).orElse(null)));
     }
 
 }
