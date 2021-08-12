@@ -47,7 +47,6 @@ public class CompanyIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].companyName").value("Apple"))
                 .andExpect(jsonPath("$[1].companyName").value("JYP"));
-
     }
 
     @Test
@@ -140,7 +139,7 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_employee_when_call_get_employee_by_company_id_api() throws Exception {
         //given
-        Integer companyId = 2;
+        Integer companyId = 1;
         List<Employee> twitterEmployees = new ArrayList<>();
         twitterEmployees.add(new Employee(1, "gail", 22, "female", 2000));
         twitterEmployees.add(new Employee(2, "franco", 21, "male", 1000));
@@ -160,5 +159,33 @@ public class CompanyIntegrationTest {
                 .andExpect(status().isOk());
 //                .andExpect(jsonPath("$[0].name").value("gail"))
 //                .andExpect(jsonPath("$[1].name").value("franco"));
+    }
+
+    @Test
+    void should_return_employees_by_pagination_when_call_get_employee_by_pagination_api() throws Exception {
+        //given
+        String pageIndex = "1";
+        String pageSize = "3";
+
+        Company twitterCompany = new Company(1,"Twitter");
+        Company jypCompany = new Company(2,"JYP");
+        Company marvelCompany = new Company(3,"Marvel");
+        Company universalCompany = new Company(4,"Universal");
+        Company amdCompany = new Company(5,"AMD");
+        companiesRepository.save(twitterCompany);
+        companiesRepository.save(jypCompany);
+        companiesRepository.save(marvelCompany);
+        companiesRepository.save(universalCompany);
+        companiesRepository.save(amdCompany);
+
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies")
+                .param("pageIndex", pageIndex)
+                .param("pageSize",pageSize))
+                .andExpect(status().isOk());
+//                .andExpect(jsonPath("$[0].companyName").value("Twitter"))
+//                .andExpect(jsonPath("$[1].companyName").value("JYP"))
+//                .andExpect(jsonPath("$[2].companyName").value("Marvel"));
     }
 }
