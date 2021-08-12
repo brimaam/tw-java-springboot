@@ -46,10 +46,10 @@ public class EmployeesServiceTest {
         //given
         Integer employeeID = 1;
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(employeeID, "alice", 20, "female", 2000));
+        employees.add(new Employee(1, "alice", 20, "female", 2000));
         employees.add(new Employee(2, "bob", 21, "male", 1000));
 
-        given(retiringEmployeesRepository.getEmployees()).willReturn(employees);
+        given(employeesRepository.findAll()).willReturn(employees);
 
         //when
         Employee actualEmployee = employeeService.findEmployeeById(employeeID);
