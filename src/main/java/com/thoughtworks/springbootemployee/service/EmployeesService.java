@@ -18,24 +18,17 @@ public class EmployeesService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
-//    public EmployeesService(RetiringEmployeesRepository retiringEmployeesRepository) {
-//        this.retiringEmployeesRepository = retiringEmployeesRepository;
-//    }
-//
-//    public EmployeesService(EmployeesRepository employeesRepository) {
-//        this.employeesRepository = employeesRepository;
-//    }
+    public EmployeesService(RetiringEmployeesRepository retiringEmployeesRepository, EmployeesRepository employeesRepository) {
+        this.retiringEmployeesRepository = retiringEmployeesRepository;
+        this.employeesRepository = employeesRepository;
+    }
 
     public List<Employee> getAllEmployees() {
-//        return retiringEmployeesRepository.getEmployees();
         return employeesRepository.findAll();
     }
 
     public Employee findEmployeeById(Integer employeeId) {
-        return retiringEmployeesRepository.getEmployees().stream()
-                .filter(employee -> employee.getId().equals(employeeId))
-                .findFirst()
-                .orElse(null);
+        return employeesRepository.findById(employeeId).orElse(null);
     }
 
     public List<Employee> getEmployeesByPagination(Integer pageIndex, Integer pageSize) {
