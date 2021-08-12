@@ -3,7 +3,6 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
-import com.thoughtworks.springbootemployee.repository.RetiringCompaniesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -14,12 +13,10 @@ import java.util.Objects;
 @Service
 public class CompaniesService {
     @Autowired
-    private final RetiringCompaniesRepository retiringCompaniesRepository;
-    @Autowired
-    private CompaniesRepository companiesRepository;
+    private final CompaniesRepository companiesRepository;
 
-    public CompaniesService(RetiringCompaniesRepository retiringCompaniesRepository) {
-        this.retiringCompaniesRepository = retiringCompaniesRepository;
+    public CompaniesService(CompaniesRepository companiesRepository) {
+        this.companiesRepository = companiesRepository;
     }
 
     public List<Company> getAllCompanies() {

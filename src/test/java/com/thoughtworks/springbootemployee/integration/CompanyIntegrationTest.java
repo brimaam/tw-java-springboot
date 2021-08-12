@@ -113,4 +113,28 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$[0].companyName").value("Twitter"));
     }
 
+    @Test
+    void should_return_company_when_call_get_company_by_id_api() throws Exception {
+        //given
+        Integer companyId = 1;
+        List<Employee> twitterEmployees = new ArrayList<>();
+        twitterEmployees.add(new Employee(1, "gail", 22, "female", 2000));
+        twitterEmployees.add(new Employee(2, "franco", 21, "male", 1000));
+
+        List<Employee> jypEmployees = new ArrayList<>();
+        jypEmployees.add(new Employee(1, "John", 22, "male", 2800));
+        jypEmployees.add(new Employee(2, "Max", 25, "female", 1800));
+
+        Company twitterCompany = new Company(1,"Twitter",twitterEmployees);
+        Company jypCompany = new Company(2,"JYP",jypEmployees);
+        companiesRepository.save(twitterCompany);
+        companiesRepository.save(jypCompany);
+
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/{companyId}", companyId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyName").value("Twitter"));
+    }
+
 }
