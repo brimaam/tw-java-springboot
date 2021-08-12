@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
+import com.thoughtworks.springbootemployee.repository.RetiringEmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,45 +12,45 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeesService {
     @Autowired
-    private final EmployeesRepository employeesRepository;
+    private final RetiringEmployeesRepository retiringEmployeesRepository;
 
-    public EmployeesService(EmployeesRepository employeesRepository) {
-        this.employeesRepository = employeesRepository;
+    @Autowired
+    private EmployeesRepository employeesRepository;
+
+    public EmployeesService(RetiringEmployeesRepository retiringEmployeesRepository) {
+        this.retiringEmployeesRepository = retiringEmployeesRepository;
     }
 
     public List<Employee> getAllEmployees() {
-        return employeesRepository.getEmployees();
+        return retiringEmployeesRepository.getEmployees();
     }
 
     public Employee findEmployeeById(Integer employeeId) {
-        return employeesRepository.getEmployees().stream()
+        return retiringEmployeesRepository.getEmployees().stream()
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findFirst()
                 .orElse(null);
     }
 
     public List<Employee> getEmployeesByPagination(Integer pageIndex, Integer pageSize) {
-        return employeesRepository.getEmployees().stream()
+        return retiringEmployeesRepository.getEmployees().stream()
                 .skip((long) (pageIndex - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
 
     public List<Employee> getAllEmployeesByGender(String gender) {
-        return employeesRepository.getEmployees().stream()
+        return retiringEmployeesRepository.getEmployees().stream()
                 .filter(employee -> gender.equalsIgnoreCase(employee.getGender()))
                 .collect(Collectors.toList());
     }
 
     public void addEmployee(Employee employee) {
-        Employee employeeToBeAdded = new Employee(employeesRepository.getEmployees().size() + 1,
-                employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary());
-
-        employeesRepository.getEmployees().add(employeeToBeAdded);
+        employeesRepository.save(employee);
     }
 
     public Employee updateEmployee(Integer employeeId, Employee employeeUpdated) {
-        List<Employee> employees = employeesRepository.getEmployees();
+        List<Employee> employees = retiringEmployeesRepository.getEmployees();
 
         return employees.stream()
                 .filter(employee -> employee.getId().equals(employeeId))
@@ -75,7 +76,7 @@ public class EmployeesService {
     }
 
     public List<Employee> deleteEmployeeRecord(Integer employeeId) {
-        List<Employee> employees = employeesRepository.getEmployees();
+        List<Employee> employees = retiringEmployeesRepository.getEmployees();
 
         employees.removeIf(employee -> employee.getId().equals(employeeId));
         return employees;
