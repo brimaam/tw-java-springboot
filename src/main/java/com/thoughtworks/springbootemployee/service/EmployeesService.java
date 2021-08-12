@@ -4,10 +4,10 @@ import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
 import com.thoughtworks.springbootemployee.repository.RetiringEmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,16 +18,7 @@ public class EmployeesService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
-//    public EmployeesService(RetiringEmployeesRepository retiringEmployeesRepository) {
-//        this.retiringEmployeesRepository = retiringEmployeesRepository;
-//    }
-//
-//    public EmployeesService(EmployeesRepository employeesRepository) {
-//        this.employeesRepository = employeesRepository;
-//    }
-
     public List<Employee> getAllEmployees() {
-//        return retiringEmployeesRepository.getEmployees();
         return employeesRepository.findAll();
     }
 
@@ -36,10 +27,7 @@ public class EmployeesService {
     }
 
     public List<Employee> getEmployeesByPagination(Integer pageIndex, Integer pageSize) {
-        return retiringEmployeesRepository.getEmployees().stream()
-                .skip((long) (pageIndex - 1) * pageSize)
-                .limit(pageSize)
-                .collect(Collectors.toList());
+        return employeesRepository.findAll(PageRequest.of(pageIndex - 1,pageSize)).getContent();
     }
 
     public List<Employee> getAllEmployeesByGender(String gender) {
