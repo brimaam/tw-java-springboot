@@ -22,7 +22,7 @@ public class EmployeeIntegrationTest {
     private EmployeesRepository employeesRepository;
 
     @Test
-    public void should_return_all_employees_when_call_get_employees_api() throws Exception{
+    void should_return_all_employees_when_call_get_employees_api() throws Exception{
         //given
         final Employee employee = new Employee(1, "Tom", 20, "male", 9999);
         employeesRepository.save(employee);
@@ -50,13 +50,8 @@ public class EmployeeIntegrationTest {
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.post("/employees")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(employee))
-                    .andExpect(status().isCreated())
-                    .andExpect(jsonPath("$.name").value("Jeff"))
-                    .andExpect(jsonPath("$.age").value(23))
-                    .andExpect(jsonPath("$.gender").value("male"))
-                    .andExpect(jsonPath("$.salary").value(3000));
+                .contentType(MediaType.APPLICATION_JSON).content(employee))
+                .andExpect(status().isCreated());
     }
 
 
