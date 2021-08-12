@@ -27,7 +27,7 @@ public class EmployeesService {
     }
 
     public List<Employee> getEmployeesByPagination(Integer pageIndex, Integer pageSize) {
-        return employeesRepository.findAll(PageRequest.of(pageIndex - 1,pageSize)).getContent();
+        return employeesRepository.findAll(PageRequest.of((pageIndex - 1),pageSize)).getContent();
     }
 
     public List<Employee> getAllEmployeesByGender(String gender) {

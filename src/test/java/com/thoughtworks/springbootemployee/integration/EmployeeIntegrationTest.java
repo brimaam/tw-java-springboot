@@ -112,4 +112,32 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.salary").value(9999));
     }
 
+    @Test
+    void should_return_employees_with_pagination_when_call_get_employee_by_pagination_api() throws Exception {
+        //given
+        String pageIndex = "1";
+        String pageSize = "3";
+
+        final Employee firstEmployee = new Employee(1, "Tom", 20, "male", 9999);
+        final Employee secondEmployee = new Employee(2, "Jane", 23, "female", 9199);
+        final Employee thirdEmployee = new Employee(3, "Freddy", 25, "male", 9399);
+        final Employee fourthEmployee = new Employee(4, "Mick", 26, "male", 9199);
+        final Employee fifthEmployee = new Employee(5, "Sally", 23, "female", 9899);
+        employeesRepository.save(firstEmployee);
+        employeesRepository.save(secondEmployee);
+        employeesRepository.save(thirdEmployee);
+        employeesRepository.save(fourthEmployee);
+        employeesRepository.save(fifthEmployee);
+
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees")
+                .param("pageIndex", pageIndex)
+                .param("pageSize",pageSize))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Tom"))
+                .andExpect(jsonPath("$[1].name").value("Jane"))
+                .andExpect(jsonPath("$[2].name").value("Freddy"));
+    }
+
 }
