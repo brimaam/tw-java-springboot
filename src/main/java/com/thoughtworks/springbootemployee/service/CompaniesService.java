@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,9 +30,7 @@ public class CompaniesService {
     }
 
     public List<Employee> getCompanyEmployeesById(Integer companyId) {
-        return Objects.requireNonNull(companiesRepository.getCompanies().stream()
-                .filter(company -> company.getId().equals(companyId))
-                .findFirst().orElse(null)).getEmployees();
+        return getCompanyById(companyId).getEmployees();
     }
 
     public List<Company> getCompaniesByPagination(Integer pageIndex, Integer pageSize) {
