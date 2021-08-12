@@ -58,8 +58,8 @@ public class EmployeesService {
         if (employeeUpdated.getSalary() != null) {
             employee.setSalary(employeeUpdated.getSalary());
         }
-        employeesRepository.save(employee);
-        return employee;
+
+        return employeesRepository.save(employee);
     }
 
     public List<Employee> deleteEmployeeRecord(Integer employeeId) {
