@@ -53,9 +53,7 @@ public class CompaniesService {
     }
 
     public List<Company> deleteCompany(Integer companyId) {
-        List<Company> companies = retiringCompaniesRepository.getCompanies();
-
-        companies.removeIf(company -> company.getId().equals(companyId));
-        return companies;
+        companiesRepository.delete(Objects.requireNonNull(companiesRepository.findById(companyId).orElse(null)));
+        return companiesRepository.findAll();
     }
 }
