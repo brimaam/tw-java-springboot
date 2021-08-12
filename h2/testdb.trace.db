@@ -3495,3 +3495,6 @@ drop table company [90107-200]
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
 >>>>>>> 7eac9bfa93877d5f638a8a86d73a05e88b9e1ca3
+2021-08-12 21:54:58 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM EMPLOYEE COMPANY EMPLOYEE[*]"; SQL statement:
+SELECT * FROM EMPLOYEE COMPANY EMPLOYEE [42000-200]
