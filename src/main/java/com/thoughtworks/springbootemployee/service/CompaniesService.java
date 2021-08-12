@@ -26,10 +26,7 @@ public class CompaniesService {
     }
 
     public Company getCompanyById(Integer companyId) {
-        return retiringCompaniesRepository.getCompanies().stream()
-                .filter(company -> company.getId().equals(companyId))
-                .findFirst()
-                .orElse(null);
+        return companiesRepository.findById(companyId).orElse(null);
     }
 
     public List<Employee> getCompanyEmployeesById(Integer companyId) {
