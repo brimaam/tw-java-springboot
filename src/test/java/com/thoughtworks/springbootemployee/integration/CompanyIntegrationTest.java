@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -47,6 +48,20 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$[0].companyName").value("Apple"))
                 .andExpect(jsonPath("$[1].companyName").value("JYP"));
 
+    }
+
+    @Test
+    void should_create_company_when_call_create_company_api() throws Exception {
+        //given
+        String employee ="{\n" +
+                "    \"companyName\": \"Jollibee\"\n" +
+                "}";
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.post("/companies")
+                .contentType(MediaType.APPLICATION_JSON).content(employee))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.companyName").value("Jollibee"));
     }
 
 }
