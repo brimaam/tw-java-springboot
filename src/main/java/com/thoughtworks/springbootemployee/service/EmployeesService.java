@@ -12,17 +12,22 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeesService {
     @Autowired
-    private final RetiringEmployeesRepository retiringEmployeesRepository;
+    private RetiringEmployeesRepository retiringEmployeesRepository;
 
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    public EmployeesService(RetiringEmployeesRepository retiringEmployeesRepository) {
-        this.retiringEmployeesRepository = retiringEmployeesRepository;
-    }
+//    public EmployeesService(RetiringEmployeesRepository retiringEmployeesRepository) {
+//        this.retiringEmployeesRepository = retiringEmployeesRepository;
+//    }
+//
+//    public EmployeesService(EmployeesRepository employeesRepository) {
+//        this.employeesRepository = employeesRepository;
+//    }
 
     public List<Employee> getAllEmployees() {
-        return retiringEmployeesRepository.getEmployees();
+//        return retiringEmployeesRepository.getEmployees();
+        return employeesRepository.findAll();
     }
 
     public Employee findEmployeeById(Integer employeeId) {

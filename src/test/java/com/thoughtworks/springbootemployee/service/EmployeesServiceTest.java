@@ -1,17 +1,20 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
 import com.thoughtworks.springbootemployee.repository.RetiringEmployeesRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -19,7 +22,9 @@ public class EmployeesServiceTest {
     @InjectMocks
     private EmployeesService employeeService;
     @Mock
-    private RetiringEmployeesRepository employeeRepository;
+    private RetiringEmployeesRepository retiringEmployeesRepository;
+    @Spy
+    private EmployeesRepository employeesRepository;
 
     @Test
     public void should_return_all_employees_when_getAllEmployees_given_all_employees() {
@@ -27,7 +32,7 @@ public class EmployeesServiceTest {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "alice", 20, "female", 2000));
         employees.add(new Employee(2, "bob", 21, "male", 1000));
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(employeesRepository.findAll()).willReturn(employees);
 
         //when
         List<Employee> actualEmployees = employeeService.getAllEmployees();
@@ -44,7 +49,7 @@ public class EmployeesServiceTest {
         employees.add(new Employee(employeeID, "alice", 20, "female", 2000));
         employees.add(new Employee(2, "bob", 21, "male", 1000));
 
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeesRepository.getEmployees()).willReturn(employees);
 
         //when
         Employee actualEmployee = employeeService.findEmployeeById(employeeID);
@@ -65,7 +70,7 @@ public class EmployeesServiceTest {
         employees.add(new Employee(3, "tom", 25, "male", 1400));
         employees.add(new Employee(4, "jeff", 31, "male", 12100));
         employees.add(new Employee(5, "kim", 21, "female", 3000));
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeesRepository.getEmployees()).willReturn(employees);
 
         //when
         List<Employee> actualEmployees = employeeService.getEmployeesByPagination(pageIndex, pageSize);
@@ -84,7 +89,7 @@ public class EmployeesServiceTest {
         employees.add(new Employee(4, "jeff", 31, "male", 12100));
         employees.add(new Employee(6, "dave", 19, "male", 1400));
         employees.add(new Employee(7, "cleon", 23, "male", 1600));
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeesRepository.getEmployees()).willReturn(employees);
 
         //when
         List<Employee> actualEmployees = employeeService.getAllEmployeesByGender(gender);
@@ -96,19 +101,18 @@ public class EmployeesServiceTest {
     @Test
     public void should_add_an_employee_to_employees_when_addEmployee_given_an_employee() {
         //given
-        Integer generatedId = employeeRepository.getEmployees().size() + 1;
-        Employee employee = new Employee(generatedId, "john", 43, "male", 6000);
+        Employee employee = new Employee(3, "john", 43, "male", 6000);
 
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "alice", 20, "female", 2000));
         employees.add(new Employee(2, "bob", 21, "male", 1000));
-        given(employeeRepository.getEmployees()).willReturn(employees);
-
+        given(employeesRepository.saveAll(any())).willReturn(employees);
         //when
         employeeService.addEmployee(employee);
 
         //then
-        assertTrue(employees.stream().anyMatch(employedPerson -> employedPerson.getId().equals(employee.getId())));
+//        assertTrue(employeesRepository.findAll().stream().anyMatch(employedPerson -> employedPerson.getId().equals(employee.getId())));
+        assertEquals(3, employeesRepository.findAll().size());
     }
 
     @Test
@@ -122,7 +126,7 @@ public class EmployeesServiceTest {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "alice", 20, "female", 2000));
         employees.add(new Employee(2, "bob", 21, "male", 1000));
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeesRepository.getEmployees()).willReturn(employees);
 
         //when
         employeeService.updateEmployee(employeeID, employee);
@@ -140,7 +144,7 @@ public class EmployeesServiceTest {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee(1, "alice", 20, "female", 2000));
         employees.add(new Employee(2, "bob", 21, "male", 1000));
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeesRepository.getEmployees()).willReturn(employees);
 
         //when
         employeeService.deleteEmployeeRecord(employeeId);
