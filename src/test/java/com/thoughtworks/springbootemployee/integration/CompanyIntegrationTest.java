@@ -88,4 +88,29 @@ public class CompanyIntegrationTest {
                 .andExpect(jsonPath("$.companyName").value("Mac"));
     }
 
+    @Test
+    void should_delete_company_when_call_delete_company_api() throws Exception {
+        //given
+        Integer companyId = 2;
+        List<Employee> twitterEmployees = new ArrayList<>();
+        twitterEmployees.add(new Employee(1, "gail", 22, "female", 2000));
+        twitterEmployees.add(new Employee(2, "franco", 21, "male", 1000));
+
+        List<Employee> mcdoEmployees = new ArrayList<>();
+        mcdoEmployees.add(new Employee(1, "John", 22, "male", 2800));
+        mcdoEmployees.add(new Employee(2, "Max", 25, "female", 1800));
+
+        Company twitterCompany = new Company(1,"Twitter",twitterEmployees);
+        Company mcdoCompany = new Company(2,"Mcdonalds",mcdoEmployees);
+        companiesRepository.save(twitterCompany);
+        companiesRepository.save(mcdoCompany);
+
+
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/companies/{companyId}", companyId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].companyName").value("Twitter"));
+    }
+
 }
