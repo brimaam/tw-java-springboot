@@ -38,12 +38,9 @@ public class EmployeesService {
     }
 
     public Employee updateEmployee(Integer employeeId, Employee employeeUpdated) {
-        List<Employee> employees = retiringEmployeesRepository.getEmployees();
+        Employee employee = employeesRepository.findById(employeeId).orElse(null);
 
-        return employees.stream()
-                .filter(employee -> employee.getId().equals(employeeId))
-                .findFirst()
-                .map(employee -> updateEmployeeInformation(employee, employeeUpdated)).orElse(null);
+        return updateEmployeeInformation(employee, employeeUpdated);
     }
 
     private Employee updateEmployeeInformation(Employee employee, Employee employeeUpdated) {
@@ -59,7 +56,7 @@ public class EmployeesService {
         if (employeeUpdated.getSalary() != null) {
             employee.setSalary(employeeUpdated.getSalary());
         }
-
+        employeesRepository.save(employee);
         return employee;
     }
 
