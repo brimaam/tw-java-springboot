@@ -54,6 +54,7 @@ public class CompanyIntegrationTest {
     void should_create_company_when_call_create_company_api() throws Exception {
         //given
         String employee ="{\n" +
+                "    \"id\": 1,\n" +
                 "    \"companyName\": \"Jollibee\"\n" +
                 "}";
         //when
@@ -62,6 +63,29 @@ public class CompanyIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON).content(employee))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.companyName").value("Jollibee"));
+    }
+
+    @Test
+    void should_update_company_when_call_update_company_api() throws Exception {
+        //given
+        Integer companyId = 1;
+
+        List<Employee> appleEmployees = new ArrayList<>();
+        appleEmployees.add(new Employee(1, "gail", 22, "female", 2000));
+        appleEmployees.add(new Employee(2, "franco", 21, "male", 1000));
+
+        final Company appleCompany = new Company(companyId,"Apple",appleEmployees);
+        companiesRepository.save(appleCompany);
+
+        String companyUpdates ="{\n" +
+                "    \"companyName\": \"Mac\"\n" +
+                "}";
+        //when
+        //then
+        mockMvc.perform(MockMvcRequestBuilders.put("/companies/{companyId}", companyId)
+                .contentType(MediaType.APPLICATION_JSON).content(companyUpdates))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyName").value("Mac"));
     }
 
 }
