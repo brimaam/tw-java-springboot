@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeesService {
@@ -31,9 +30,7 @@ public class EmployeesService {
     }
 
     public List<Employee> getAllEmployeesByGender(String gender) {
-        return retiringEmployeesRepository.getEmployees().stream()
-                .filter(employee -> gender.equalsIgnoreCase(employee.getGender()))
-                .collect(Collectors.toList());
+        return employeesRepository.findAllByGender(gender);
     }
 
     public void addEmployee(Employee employee) {
