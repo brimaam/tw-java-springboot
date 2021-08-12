@@ -2,7 +2,6 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
-import com.thoughtworks.springbootemployee.repository.RetiringEmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -12,11 +11,13 @@ import java.util.Objects;
 
 @Service
 public class EmployeesService {
-    @Autowired
-    private RetiringEmployeesRepository retiringEmployeesRepository;
 
     @Autowired
-    private EmployeesRepository employeesRepository;
+    private final EmployeesRepository employeesRepository;
+
+    public EmployeesService(EmployeesRepository employeesRepository) {
+        this.employeesRepository = employeesRepository;
+    }
 
     public List<Employee> getAllEmployees() {
         return employeesRepository.findAll();

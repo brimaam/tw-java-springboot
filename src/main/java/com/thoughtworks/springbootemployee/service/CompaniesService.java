@@ -5,10 +5,11 @@ import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
 import com.thoughtworks.springbootemployee.repository.RetiringCompaniesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service
 public class CompaniesService {
@@ -30,15 +31,11 @@ public class CompaniesService {
     }
 
     public List<Employee> getCompanyEmployeesById(Integer companyId) {
-        Company company =  companiesRepository.findById(companyId).orElse(null);
-        return company.getEmployees();
+        return Objects.requireNonNull(companiesRepository.findById(companyId).orElse(null)).getEmployees();
     }
 
     public List<Company> getCompaniesByPagination(Integer pageIndex, Integer pageSize) {
-        return retiringCompaniesRepository.getCompanies().stream()
-                .skip((long) (pageIndex - 1) * pageSize)
-                .limit(pageSize)
-                .collect(Collectors.toList());
+        return companiesRepository.findAll(PageRequest.of((pageIndex - 1),pageSize)).getContent();
     }
 
     public List<Company> addCompany(Company company) {
