@@ -18,12 +18,16 @@ public class EmployeesService {
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    public EmployeesService(RetiringEmployeesRepository retiringEmployeesRepository, EmployeesRepository employeesRepository) {
-        this.retiringEmployeesRepository = retiringEmployeesRepository;
-        this.employeesRepository = employeesRepository;
-    }
+//    public EmployeesService(RetiringEmployeesRepository retiringEmployeesRepository) {
+//        this.retiringEmployeesRepository = retiringEmployeesRepository;
+//    }
+//
+//    public EmployeesService(EmployeesRepository employeesRepository) {
+//        this.employeesRepository = employeesRepository;
+//    }
 
     public List<Employee> getAllEmployees() {
+//        return retiringEmployeesRepository.getEmployees();
         return employeesRepository.findAll();
     }
 
