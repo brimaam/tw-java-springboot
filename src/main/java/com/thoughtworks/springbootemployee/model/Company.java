@@ -21,6 +21,11 @@ public class Company {
         this.employees = employees;
     }
 
+    public Company(Integer id, String companyName) {
+        this.id = id;
+        this.companyName = companyName;
+    }
+
     public Integer getId() {
         return id;
     }
