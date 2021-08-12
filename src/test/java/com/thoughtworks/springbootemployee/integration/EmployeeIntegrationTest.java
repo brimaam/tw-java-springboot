@@ -51,7 +51,11 @@ public class EmployeeIntegrationTest {
         //then
         mockMvc.perform(MockMvcRequestBuilders.post("/employees")
                 .contentType(MediaType.APPLICATION_JSON).content(employee))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value("Jeff"))
+                .andExpect(jsonPath("$.age").value(23))
+                .andExpect(jsonPath("$.gender").value("male"))
+                .andExpect(jsonPath("$.salary").value(3000));
     }
 
     @Test
@@ -90,7 +94,11 @@ public class EmployeeIntegrationTest {
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{employeeId}", employeeId))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Jane"))
+                .andExpect(jsonPath("$[0].age").value("23"))
+                .andExpect(jsonPath("$[0].gender").value("female"))
+                .andExpect(jsonPath("$[0].salary").value(9199));;
     }
 
     @Test

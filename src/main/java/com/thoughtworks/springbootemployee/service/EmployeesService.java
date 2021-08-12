@@ -34,8 +34,8 @@ public class EmployeesService {
         return employeesRepository.findAllByGender(gender);
     }
 
-    public void addEmployee(Employee employee) {
-        employeesRepository.save(employee);
+    public Employee addEmployee(Employee employee) {
+        return employeesRepository.save(employee);
     }
 
     public Employee updateEmployee(Integer employeeId, Employee employeeUpdated) {
@@ -61,8 +61,9 @@ public class EmployeesService {
         return employee;
     }
 
-    public void deleteEmployeeRecord(Integer employeeId) {
+    public List<Employee> deleteEmployeeRecord(Integer employeeId) {
         employeesRepository.delete(Objects.requireNonNull(employeesRepository.findById(employeeId).orElse(null)));
+        return employeesRepository.findAll();
     }
 
 }

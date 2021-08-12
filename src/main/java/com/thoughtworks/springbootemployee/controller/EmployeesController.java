@@ -41,8 +41,8 @@ public class EmployeesController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void addEmployee(@RequestBody Employee employee) {
-        employeesService.addEmployee(employee);
+    public Employee addEmployee(@RequestBody Employee employee) {
+        return employeesService.addEmployee(employee);
     }
 
     @PutMapping(path = "/{employeeId}")
@@ -51,7 +51,7 @@ public class EmployeesController {
     }
 
     @DeleteMapping(path = "/{employeeId}")
-    private void deleteEmployee(@PathVariable Integer employeeId) {
-        employeesService.deleteEmployeeRecord(employeeId);
+    private List <Employee> deleteEmployee(@PathVariable Integer employeeId) {
+        return employeesService.deleteEmployeeRecord(employeeId);
     }
 }
