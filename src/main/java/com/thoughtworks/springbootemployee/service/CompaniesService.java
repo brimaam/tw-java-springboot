@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
+import com.thoughtworks.springbootemployee.repository.RetiringCompaniesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,36 +13,39 @@ import java.util.stream.Collectors;
 @Service
 public class CompaniesService {
     @Autowired
-    private final CompaniesRepository companiesRepository;
+    private final RetiringCompaniesRepository retiringCompaniesRepository;
+    @Autowired
+    private CompaniesRepository companiesRepository;
 
-    public CompaniesService(CompaniesRepository companiesRepository) {
-        this.companiesRepository = companiesRepository;
+    public CompaniesService(RetiringCompaniesRepository retiringCompaniesRepository) {
+        this.retiringCompaniesRepository = retiringCompaniesRepository;
     }
 
     public List<Company> getAllCompanies() {
-        return companiesRepository.getCompanies();
+        return retiringCompaniesRepository.getCompanies();
     }
 
     public Company getCompanyById(Integer companyId) {
-        return companiesRepository.getCompanies().stream()
+        return retiringCompaniesRepository.getCompanies().stream()
                 .filter(company -> company.getId().equals(companyId))
                 .findFirst()
                 .orElse(null);
     }
 
     public List<Employee> getCompanyEmployeesById(Integer companyId) {
-        return getCompanyById(companyId).getEmployees();
+        Company company =  companiesRepository.findById(companyId).orElse(null);
+        return company.getEmployees();
     }
 
     public List<Company> getCompaniesByPagination(Integer pageIndex, Integer pageSize) {
-        return companiesRepository.getCompanies().stream()
+        return retiringCompaniesRepository.getCompanies().stream()
                 .skip((long) (pageIndex - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
 
     public List<Company> addCompany(Company company) {
-        List<Company> companies = companiesRepository.getCompanies();
+        List<Company> companies = retiringCompaniesRepository.getCompanies();
         Company companyToBeAdded = new Company(companies.size() + 1,
                 company.getCompanyName(), company.getEmployees());
 
@@ -51,7 +55,7 @@ public class CompaniesService {
     }
 
     public Company updateCompany(Integer employeeId, Company companyUpdated) {
-        List<Company> companies = companiesRepository.getCompanies();
+        List<Company> companies = retiringCompaniesRepository.getCompanies();
 
         return companies.stream()
                 .filter(company -> company.getId().equals(employeeId))
@@ -67,7 +71,7 @@ public class CompaniesService {
     }
 
     public List<Company> deleteCompany(Integer companyId) {
-        List<Company> companies = companiesRepository.getCompanies();
+        List<Company> companies = retiringCompaniesRepository.getCompanies();
 
         companies.removeIf(company -> company.getId().equals(companyId));
         return companies;
