@@ -26,8 +26,8 @@ public class EmployeeIntegrationTest {
         //given
         final Employee employee = new Employee(1, "Tom", 20, "male", 9999);
         employeesRepository.save(employee);
-        //when
 
+        //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
@@ -63,7 +63,7 @@ public class EmployeeIntegrationTest {
         //given
         Integer employeeId = 1;
         final Employee employee = new Employee(employeeId, "Tom", 20, "male", 9999);
-        final Employee savedEmployee = employeesRepository.save(employee);
+        employeesRepository.save(employee);
         String employeeUpdates ="{\n" +
                 "    \"id\": 1,\n" +
                 "    \"name\": \"Sarah\",\n" +
@@ -98,7 +98,7 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].name").value("Jane"))
                 .andExpect(jsonPath("$[0].age").value("23"))
                 .andExpect(jsonPath("$[0].gender").value("female"))
-                .andExpect(jsonPath("$[0].salary").value(9199));;
+                .andExpect(jsonPath("$[0].salary").value(9199));
     }
 
     @Test
