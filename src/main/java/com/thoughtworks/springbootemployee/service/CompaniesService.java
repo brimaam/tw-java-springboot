@@ -38,14 +38,8 @@ public class CompaniesService {
         return companiesRepository.findAll(PageRequest.of((pageIndex - 1),pageSize)).getContent();
     }
 
-    public List<Company> addCompany(Company company) {
-        List<Company> companies = retiringCompaniesRepository.getCompanies();
-        Company companyToBeAdded = new Company(companies.size() + 1,
-                company.getCompanyName(), company.getEmployees());
-
-        companies.add(companyToBeAdded);
-
-        return companies;
+    public Company addCompany(Company company) {
+        return companiesRepository.save(company);
     }
 
     public Company updateCompany(Integer employeeId, Company companyUpdated) {
