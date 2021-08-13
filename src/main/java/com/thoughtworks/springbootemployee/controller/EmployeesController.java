@@ -46,8 +46,8 @@ public class EmployeesController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Employee addEmployee(@RequestBody EmployeeRequest employeeRequest) {
-        return employeesService.addEmployee(employeeMapper.toEntity(employeeRequest));
+    public EmployeeResponse addEmployee(@RequestBody EmployeeRequest employeeRequest) {
+        return employeeMapper.toResponse(employeesService.addEmployee(employeeMapper.toEntity(employeeRequest)));
     }
 
     @PutMapping(path = "/{employeeId}")
