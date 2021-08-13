@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.controller;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.model.EmployeeRequest;
+import com.thoughtworks.springbootemployee.model.EmployeeResponse;
 import com.thoughtworks.springbootemployee.service.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,8 @@ public class EmployeesController {
 
 
     @GetMapping(path = "/{employeeId}")
-    public Employee findEmployeeById(@PathVariable Integer employeeId) {
-        return employeesService.findEmployeeById(employeeId);
+    public EmployeeResponse findEmployeeById(@PathVariable Integer employeeId) {
+        return employeeMapper.toResponse(employeesService.findEmployeeById(employeeId));
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
