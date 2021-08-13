@@ -41,7 +41,7 @@ public class EmployeesService {
     }
 
     public Employee updateEmployee(Integer employeeId, Employee employeeUpdated) {
-        Employee employee = employeesRepository.findById(employeeId).orElse(null);
+        Employee employee = employeesRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException("Employee id not found."));
 
         return updateEmployeeInformation(employee, employeeUpdated);
     }
@@ -64,7 +64,8 @@ public class EmployeesService {
     }
 
     public List<Employee> deleteEmployeeRecord(Integer employeeId) {
-        employeesRepository.delete(Objects.requireNonNull(employeesRepository.findById(employeeId).orElse(null)));
+        employeesRepository.delete(Objects.requireNonNull(employeesRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee id not found."))));
         return employeesRepository.findAll();
     }
 
