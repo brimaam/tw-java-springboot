@@ -107,8 +107,7 @@ public class EmployeeIntegrationTest {
         Integer employeeId = 1;
         final Employee firstEmployee = new Employee(employeeId, "Tom", 20, "male", 9999);
         final Employee secondEmployee = new Employee(2, "Jane", 23, "female", 9199);
-        employeesRepository.save(firstEmployee);
-        employeesRepository.save(secondEmployee);
+        employeesRepository.saveAll(Lists.list(firstEmployee,secondEmployee));
 
         //when
         //then
@@ -131,11 +130,7 @@ public class EmployeeIntegrationTest {
         final Employee thirdEmployee = new Employee(3, "Freddy", 25, "male", 9399);
         final Employee fourthEmployee = new Employee(4, "Mick", 26, "male", 9199);
         final Employee fifthEmployee = new Employee(5, "Sally", 23, "female", 9899);
-        employeesRepository.save(firstEmployee);
-        employeesRepository.save(secondEmployee);
-        employeesRepository.save(thirdEmployee);
-        employeesRepository.save(fourthEmployee);
-        employeesRepository.save(fifthEmployee);
+        employeesRepository.saveAll(Lists.list(firstEmployee,secondEmployee,thirdEmployee,fourthEmployee,fifthEmployee));
 
         //when
         //then
@@ -158,11 +153,7 @@ public class EmployeeIntegrationTest {
         final Employee thirdEmployee = new Employee(3, "Freddy", 25, "male", 9399);
         final Employee fourthEmployee = new Employee(4, "Mick", 26, "male", 9199);
         final Employee fifthEmployee = new Employee(5, "Sally", 23, "female", 9899);
-        employeesRepository.save(firstEmployee);
-        employeesRepository.save(secondEmployee);
-        employeesRepository.save(thirdEmployee);
-        employeesRepository.save(fourthEmployee);
-        employeesRepository.save(fifthEmployee);
+        employeesRepository.saveAll(Lists.list(firstEmployee,secondEmployee,thirdEmployee,fourthEmployee,fifthEmployee));
 
         //when
         //then
