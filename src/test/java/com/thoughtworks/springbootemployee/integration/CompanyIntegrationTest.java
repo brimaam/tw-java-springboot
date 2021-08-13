@@ -3,6 +3,9 @@ package com.thoughtworks.springbootemployee.integration;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
+import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,28 +27,30 @@ public class CompanyIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private CompaniesRepository companiesRepository;
+    @Autowired
+    private EmployeesRepository employeesRepository;
+    @AfterEach
+    void cleanDate(){
+        companiesRepository.deleteAll();
+    }
 
     @Test
     void should_return_all_companies_when_call_get_companies_api() throws Exception {
-        //given
-        List<Employee> appleEmployees = new ArrayList<>();
-        appleEmployees.add(new Employee(1, "gail", 22, "female", 2000));
-        appleEmployees.add(new Employee(2, "franco", 21, "male", 1000));
 
-        List<Employee> jypEmployees = new ArrayList<>();
-        jypEmployees.add(new Employee(1, "John", 22, "male", 2800));
-        jypEmployees.add(new Employee(2, "Max", 25, "female", 1800));
+        final Company twitterCompany = new Company("Twitter");
+        final Company jypCompany = new Company("JYP");
+        companiesRepository.saveAll(Lists.list(twitterCompany,jypCompany));
 
-        final Company appleCompany = new Company(1,"Apple",appleEmployees);
-        final Company jypCompany = new Company(2,"JYP",jypEmployees);
-        companiesRepository.save(appleCompany);
-        companiesRepository.save(jypCompany);
+        Integer companyId = twitterCompany.getId();
+
+        employeesRepository.save(new Employee( "gail", 22, "female", 2000,companyId));
+        employeesRepository.save(new Employee( "franco", 21, "male", 1000,companyId));
 
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/companies"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].companyName").value("Apple"))
+                .andExpect(jsonPath("$[0].companyName").value("Twitter"))
                 .andExpect(jsonPath("$[1].companyName").value("JYP"));
     }
 
@@ -67,14 +72,14 @@ public class CompanyIntegrationTest {
     @Test
     void should_update_company_when_call_update_company_api() throws Exception {
         //given
-        Integer companyId = 1;
 
-        List<Employee> appleEmployees = new ArrayList<>();
-        appleEmployees.add(new Employee(1, "gail", 22, "female", 2000));
-        appleEmployees.add(new Employee(2, "franco", 21, "male", 1000));
-
-        final Company appleCompany = new Company(companyId,"Apple",appleEmployees);
+        final Company appleCompany = new Company("Apple");
         companiesRepository.save(appleCompany);
+
+        Integer companyId = appleCompany.getId();
+
+        employeesRepository.save(new Employee( "gail", 22, "female", 2000,companyId));
+        employeesRepository.save(new Employee( "franco", 21, "male", 1000,companyId));
 
         String companyUpdates ="{\n" +
                 "    \"companyName\": \"Mac\"\n" +
@@ -90,44 +95,40 @@ public class CompanyIntegrationTest {
     @Test
     void should_delete_company_when_call_delete_company_api() throws Exception {
         //given
-        Integer companyId = 2;
+        Integer companyId = 1;
         List<Employee> twitterEmployees = new ArrayList<>();
-        twitterEmployees.add(new Employee(1, "gail", 22, "female", 2000));
-        twitterEmployees.add(new Employee(2, "franco", 21, "male", 1000));
+        twitterEmployees.add(new Employee("gail", 22, "female", 2000,1));
+        twitterEmployees.add(new Employee("franco", 21, "male", 1000,1));
 
         List<Employee> mcdoEmployees = new ArrayList<>();
-        mcdoEmployees.add(new Employee(1, "John", 22, "male", 2800));
-        mcdoEmployees.add(new Employee(2, "Max", 25, "female", 1800));
+        mcdoEmployees.add(new Employee("John", 22, "male", 2800,2));
+        mcdoEmployees.add(new Employee("Max", 25, "female", 1800,2));
 
         Company twitterCompany = new Company(1,"Twitter",twitterEmployees);
         Company mcdoCompany = new Company(2,"Mcdonalds",mcdoEmployees);
-        companiesRepository.save(twitterCompany);
-        companiesRepository.save(mcdoCompany);
+        companiesRepository.saveAll(Lists.list(twitterCompany,mcdoCompany));
 
 
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.delete("/companies/{companyId}", companyId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].companyName").value("Twitter"));
+                .andExpect(jsonPath("$[0].companyName").value("Mcdonalds"));
     }
 
     @Test
     void should_return_company_when_call_get_company_by_id_api() throws Exception {
         //given
-        Integer companyId = 1;
-        List<Employee> twitterEmployees = new ArrayList<>();
-        twitterEmployees.add(new Employee(1, "gail", 22, "female", 2000));
-        twitterEmployees.add(new Employee(2, "franco", 21, "male", 1000));
-
-        List<Employee> jypEmployees = new ArrayList<>();
-        jypEmployees.add(new Employee(1, "John", 22, "male", 2800));
-        jypEmployees.add(new Employee(2, "Max", 25, "female", 1800));
-
-        Company twitterCompany = new Company(1,"Twitter",twitterEmployees);
-        Company jypCompany = new Company(2,"JYP",jypEmployees);
-        companiesRepository.save(twitterCompany);
+        Company jypCompany = new Company("JYP");
         companiesRepository.save(jypCompany);
+
+        Company twitterCompany = new Company("Twitter");
+        companiesRepository.save(twitterCompany);
+
+        Integer companyId = twitterCompany.getId();
+        employeesRepository.save(new Employee( "gail", 22, "female", 2000,companyId));
+        employeesRepository.save(new Employee( "franco", 21, "male", 1000,companyId));
+
 
         //when
         //then
@@ -139,19 +140,13 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_employee_when_call_get_employee_by_company_id_api() throws Exception {
         //given
-        Integer companyId = 1;
-        List<Employee> twitterEmployees = new ArrayList<>();
-        twitterEmployees.add(new Employee( "gail", 22, "female", 2000,1));
-        twitterEmployees.add(new Employee( "franco", 21, "male", 1000, 1));
 
-        List<Employee> jypEmployees = new ArrayList<>();
-        jypEmployees.add(new Employee("John", 22, "male", 2800,2));
-        jypEmployees.add(new Employee( "Max", 25, "female", 1800,2));
-
-        Company twitterCompany = new Company(1,"Twitter",twitterEmployees);
-        Company jypCompany = new Company(2,"JYP",jypEmployees);
+        Company twitterCompany = new Company("Twitter");
         companiesRepository.save(twitterCompany);
-        companiesRepository.save(jypCompany);
+
+        Integer companyId = twitterCompany.getId();
+        employeesRepository.save(new Employee( "gail", 22, "female", 2000,companyId));
+        employeesRepository.save(new Employee( "franco", 21, "male", 1000,companyId));
 
         //when
         //then
@@ -167,25 +162,20 @@ public class CompanyIntegrationTest {
         String pageIndex = "1";
         String pageSize = "3";
 
-        Company twitterCompany = new Company(1,"Twitter");
-        Company jypCompany = new Company(2,"JYP");
-        Company marvelCompany = new Company(3,"Marvel");
-        Company universalCompany = new Company(4,"Universal");
-        Company amdCompany = new Company(5,"AMD");
-        companiesRepository.save(twitterCompany);
-        companiesRepository.save(jypCompany);
-        companiesRepository.save(marvelCompany);
-        companiesRepository.save(universalCompany);
-        companiesRepository.save(amdCompany);
-
+        Company twitterCompany = new Company("Twitter");
+        Company jypCompany = new Company("JYP");
+        Company marvelCompany = new Company("Marvel");
+        Company universalCompany = new Company("Universal");
+        Company amdCompany = new Company("AMD");
+        companiesRepository.saveAll(Lists.list(twitterCompany,jypCompany,marvelCompany,universalCompany,amdCompany));
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/companies")
                 .param("pageIndex", pageIndex)
                 .param("pageSize",pageSize))
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$[0].companyName").value("Twitter"))
-//                .andExpect(jsonPath("$[1].companyName").value("JYP"))
-//                .andExpect(jsonPath("$[2].companyName").value("Marvel"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].companyName").value("Twitter"))
+                .andExpect(jsonPath("$[1].companyName").value("JYP"))
+                .andExpect(jsonPath("$[2].companyName").value("Marvel"));
     }
 }
