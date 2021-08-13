@@ -141,12 +141,12 @@ public class CompanyIntegrationTest {
         //given
         Integer companyId = 1;
         List<Employee> twitterEmployees = new ArrayList<>();
-        twitterEmployees.add(new Employee(1, "gail", 22, "female", 2000));
-        twitterEmployees.add(new Employee(2, "franco", 21, "male", 1000));
+        twitterEmployees.add(new Employee( "gail", 22, "female", 2000,1));
+        twitterEmployees.add(new Employee( "franco", 21, "male", 1000, 1));
 
         List<Employee> jypEmployees = new ArrayList<>();
-        jypEmployees.add(new Employee(1, "John", 22, "male", 2800));
-        jypEmployees.add(new Employee(2, "Max", 25, "female", 1800));
+        jypEmployees.add(new Employee("John", 22, "male", 2800,2));
+        jypEmployees.add(new Employee( "Max", 25, "female", 1800,2));
 
         Company twitterCompany = new Company(1,"Twitter",twitterEmployees);
         Company jypCompany = new Company(2,"JYP",jypEmployees);
@@ -156,9 +156,9 @@ public class CompanyIntegrationTest {
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/companies/{companyId}/employees", companyId))
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$[0].name").value("gail"))
-//                .andExpect(jsonPath("$[1].name").value("franco"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("gail"))
+                .andExpect(jsonPath("$[1].name").value("franco"));
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.integration;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -87,8 +88,7 @@ public class EmployeeIntegrationTest {
         Integer employeeId = 1;
         final Employee firstEmployee = new Employee(employeeId, "Tom", 20, "male", 9999);
         final Employee secondEmployee = new Employee(2, "Jane", 23, "female", 9199);
-        employeesRepository.save(firstEmployee);
-        employeesRepository.save(secondEmployee);
+        employeesRepository.saveAll(Lists.list(firstEmployee,secondEmployee));
 
 
         //when
