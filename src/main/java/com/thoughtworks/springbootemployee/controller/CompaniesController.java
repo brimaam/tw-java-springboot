@@ -58,8 +58,8 @@ public class CompaniesController {
     }
 
     @DeleteMapping(path = "/{companyId}")
-    public List<Company> deleteCompany(@PathVariable Integer companyId) {
-        return companiesService.deleteCompany(companyId);
+    public List<CompanyResponse> deleteCompany(@PathVariable Integer companyId) {
+        return companyMapper.toResponse(companiesService.deleteCompany(companyId));
     }
 
 }
