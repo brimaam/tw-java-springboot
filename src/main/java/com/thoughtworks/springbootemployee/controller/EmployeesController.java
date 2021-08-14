@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeesController {
     @Autowired
-    private EmployeesService employeesService;
+    private final EmployeesService employeesService;
     @Autowired
     private EmployeeMapper employeeMapper;
 
@@ -24,10 +24,9 @@ public class EmployeesController {
     }
 
     @GetMapping
-    public List<Employee> getAllEmployees() {
-        return employeesService.getAllEmployees();
+    public List<EmployeeResponse> getAllEmployees() {
+        return employeeMapper.toResponse(employeesService.getAllEmployees());
     }
-
 
     @GetMapping(path = "/{employeeId}")
     public EmployeeResponse findEmployeeById(@PathVariable Integer employeeId) {
@@ -51,13 +50,14 @@ public class EmployeesController {
     }
 
     @PutMapping(path = "/{employeeId}")
-    public EmployeeResponse updateEmployee(@PathVariable Integer employeeId, @RequestBody EmployeeRequest employeeRequest) {
+    public EmployeeResponse updateEmployee(@PathVariable Integer employeeId,
+                                           @RequestBody EmployeeRequest employeeRequest) {
         return employeeMapper.toResponse(employeesService.updateEmployee(employeeId,
                 employeeMapper.toEntity(employeeRequest)));
     }
 
     @DeleteMapping(path = "/{employeeId}")
-    private List <Employee> deleteEmployee(@PathVariable Integer employeeId) {
+    private List<Employee> deleteEmployee(@PathVariable Integer employeeId) {
         return employeesService.deleteEmployeeRecord(employeeId);
     }
 }
