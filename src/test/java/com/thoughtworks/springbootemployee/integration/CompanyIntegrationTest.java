@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.integration;
 
-import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.entity.Company;
+import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
 import org.assertj.core.util.Lists;
