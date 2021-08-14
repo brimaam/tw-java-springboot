@@ -1,7 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
-import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.model.EmployeeRequest;
 import com.thoughtworks.springbootemployee.model.EmployeeResponse;
 import com.thoughtworks.springbootemployee.service.EmployeesService;
@@ -34,7 +33,8 @@ public class EmployeesController {
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
-    public List<EmployeeResponse> getEmployeesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
+    public List<EmployeeResponse> getEmployeesByPagination(@RequestParam Integer pageIndex,
+                                                           @RequestParam Integer pageSize) {
         return employeeMapper.toResponse(employeesService.getEmployeesByPagination(pageIndex, pageSize));
     }
 
@@ -57,7 +57,7 @@ public class EmployeesController {
     }
 
     @DeleteMapping(path = "/{employeeId}")
-    private List<Employee> deleteEmployee(@PathVariable Integer employeeId) {
-        return employeesService.deleteEmployeeRecord(employeeId);
+    private List<EmployeeResponse> deleteEmployee(@PathVariable Integer employeeId) {
+        return employeeMapper.toResponse(employeesService.deleteEmployeeRecord(employeeId));
     }
 }
