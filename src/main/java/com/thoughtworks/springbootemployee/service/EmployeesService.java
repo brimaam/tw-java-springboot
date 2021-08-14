@@ -25,11 +25,12 @@ public class EmployeesService {
     }
 
     public Employee findEmployeeById(Integer employeeId) {
-        return employeesRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException("Employee id not found."));
+        return employeesRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found."));
     }
 
     public List<Employee> getEmployeesByPagination(Integer pageIndex, Integer pageSize) {
-        return employeesRepository.findAll(PageRequest.of((pageIndex - 1),pageSize)).getContent();
+        return employeesRepository.findAll(PageRequest.of((pageIndex - 1), pageSize)).getContent();
     }
 
     public List<Employee> getAllEmployeesByGender(String gender) {
@@ -41,7 +42,8 @@ public class EmployeesService {
     }
 
     public Employee updateEmployee(Integer employeeId, Employee employeeUpdated) {
-        Employee employee = employeesRepository.findById(employeeId).orElseThrow(() -> new EmployeeNotFoundException("Employee id not found."));
+        Employee employee = employeesRepository.findById(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found."));
 
         return updateEmployeeInformation(employee, employeeUpdated);
     }
@@ -65,7 +67,7 @@ public class EmployeesService {
 
     public List<Employee> deleteEmployeeRecord(Integer employeeId) {
         employeesRepository.delete(Objects.requireNonNull(employeesRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee id not found."))));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found."))));
         return employeesRepository.findAll();
     }
 

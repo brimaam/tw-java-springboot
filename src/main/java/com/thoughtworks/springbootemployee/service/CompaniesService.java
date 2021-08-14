@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompaniesRepository;
@@ -24,15 +25,17 @@ public class CompaniesService {
     }
 
     public Company getCompanyById(Integer companyId) {
-        return companiesRepository.findById(companyId).orElse(null);
+        return companiesRepository.findById(companyId)
+                .orElseThrow(() -> new CompanyNotFoundException("Company not found."));
     }
 
     public List<Employee> getCompanyEmployeesById(Integer companyId) {
-        return Objects.requireNonNull(companiesRepository.findById(companyId).orElse(null)).getEmployees();
+        return companiesRepository.findById(companyId)
+                .orElseThrow(() -> new CompanyNotFoundException("Company not found.")).getEmployees();
     }
 
     public List<Company> getCompaniesByPagination(Integer pageIndex, Integer pageSize) {
-        return companiesRepository.findAll(PageRequest.of((pageIndex - 1),pageSize)).getContent();
+        return companiesRepository.findAll(PageRequest.of((pageIndex - 1), pageSize)).getContent();
     }
 
     public Company addCompany(Company company) {
@@ -40,7 +43,8 @@ public class CompaniesService {
     }
 
     public Company updateCompany(Integer employeeId, Company companyUpdated) {
-        Company company = companiesRepository.findById(employeeId).orElse(null);
+        Company company = companiesRepository.findById(employeeId)
+                .orElseThrow(() -> new CompanyNotFoundException("Company not found."));
         assert company != null;
 
         if (companyUpdated.getCompanyName() != null) {
@@ -50,7 +54,8 @@ public class CompaniesService {
     }
 
     public List<Company> deleteCompany(Integer companyId) {
-        companiesRepository.delete(Objects.requireNonNull(companiesRepository.findById(companyId).orElse(null)));
+        companiesRepository.delete(companiesRepository.findById(companyId)
+                .orElseThrow(() -> new CompanyNotFoundException("Company not found.")));
         return companiesRepository.findAll();
     }
 }
