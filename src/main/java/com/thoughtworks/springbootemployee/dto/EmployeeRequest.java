@@ -34,6 +34,10 @@ public class EmployeeRequest {
         return salary;
     }
 
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

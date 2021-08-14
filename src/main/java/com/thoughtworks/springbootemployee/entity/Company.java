@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,7 +11,7 @@ public class Company {
     private Integer id;
     private String companyName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId")
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
 
     public Company() {
     }
