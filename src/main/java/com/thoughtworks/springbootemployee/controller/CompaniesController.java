@@ -3,7 +3,6 @@ package com.thoughtworks.springbootemployee.controller;
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
-import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.service.CompaniesService;
@@ -43,7 +42,8 @@ public class CompaniesController {
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
-    public List<CompanyResponse> getCompaniesByPagination(@RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
+    public List<CompanyResponse> getCompaniesByPagination(@RequestParam Integer pageIndex,
+                                                          @RequestParam Integer pageSize) {
         return companyMapper.toResponse(companiesService.getCompaniesByPagination(pageIndex, pageSize));
     }
 
@@ -54,8 +54,9 @@ public class CompaniesController {
     }
 
     @PutMapping(path = "/{companyId}")
-    public CompanyResponse updateCompany(@PathVariable Integer companyId, @RequestBody Company companyUpdated) {
-        return companyMapper.toResponse(companiesService.updateCompany(companyId, companyUpdated));
+    public CompanyResponse updateCompany(@PathVariable Integer companyId, @RequestBody CompanyRequest companyRequest) {
+        return companyMapper.toResponse(companiesService.updateCompany(companyId,
+                companyMapper.toEntity(companyRequest)));
     }
 
     @DeleteMapping(path = "/{companyId}")
