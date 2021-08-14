@@ -45,8 +45,8 @@ public class CompaniesController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Company addCompany(@RequestBody Company company) {
-        return companiesService.addCompany(company);
+    public CompanyResponse addCompany(@RequestBody Company company) {
+        return companyMapper.toResponse(companiesService.addCompany(company));
     }
 
     @PutMapping(path = "/{companyId}")
