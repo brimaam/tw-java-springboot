@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.integration;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeesRepository;
 import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +22,10 @@ public class EmployeeIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private EmployeesRepository employeesRepository;
+    @AfterEach
+    void cleanDate(){
+        employeesRepository.deleteAll();
+    }
 
     @Test
     void should_return_all_employees_when_call_get_employees_api() throws Exception{
@@ -62,11 +67,12 @@ public class EmployeeIntegrationTest {
     @Test
     void should_update_employee_when_call_update_employee_api() throws Exception {
         //given
-        Integer employeeId = 1;
-        final Employee employee = new Employee(employeeId, "Tom", 20, "male", 9999);
+
+        final Employee employee = new Employee("Tom", 20, "male", 9999);
         employeesRepository.save(employee);
+        Integer employeeId = employee.getId();
+
         String employeeUpdates ="{\n" +
-                "    \"id\": 1,\n" +
                 "    \"name\": \"Sarah\",\n" +
                 "    \"age\": 23,\n" +
                 "    \"gender\": \"female\",\n" +
@@ -85,11 +91,10 @@ public class EmployeeIntegrationTest {
     @Test
     void should_delete_employee_when_call_delete_employee_api() throws Exception {
         //given
-        Integer employeeId = 1;
-        final Employee firstEmployee = new Employee(employeeId, "Tom", 20, "male", 9999);
+        final Employee firstEmployee = new Employee("Tom", 20, "male", 9999);
         final Employee secondEmployee = new Employee(2, "Jane", 23, "female", 9199);
         employeesRepository.saveAll(Lists.list(firstEmployee,secondEmployee));
-
+        Integer employeeId = firstEmployee.getId();
 
         //when
         //then
@@ -104,10 +109,11 @@ public class EmployeeIntegrationTest {
     @Test
     void should_return_employee_when_call_get_employee_by_id_api() throws Exception {
         //given
-        Integer employeeId = 1;
-        final Employee firstEmployee = new Employee(employeeId, "Tom", 20, "male", 9999);
+
+        final Employee firstEmployee = new Employee("Tom", 20, "male", 9999);
         final Employee secondEmployee = new Employee(2, "Jane", 23, "female", 9199);
         employeesRepository.saveAll(Lists.list(firstEmployee,secondEmployee));
+        Integer employeeId = firstEmployee.getId();
 
         //when
         //then
